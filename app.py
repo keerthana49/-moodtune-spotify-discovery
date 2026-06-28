@@ -70,4 +70,19 @@ if st.button("Discover My Music", use_container_width=True):
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[{"role": "user", "content": prompt}],
+                    max_tokens=1500,
+                    temperature=0.7
                 )
+
+                st.markdown("---")
+                st.markdown("### Your Discovery Playlist")
+                st.markdown(response.choices[0].message.content)
+                st.markdown("---")
+                st.success("Found something you love? Save it to Spotify!")
+
+            except Exception as e:
+                st.error("Something went wrong. Please try again.")
+                st.caption(str(e))
+
+st.markdown("---")
+st.caption("Built to solve Spotify's discovery problem | PM Project 2026")
