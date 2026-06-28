@@ -10,7 +10,6 @@ st.set_page_config(
 st.title("🎵 MoodTune")
 st.subheader("Describe how you're feeling. Discover music made for this exact moment.")
 st.markdown("---")
-
 st.caption("Spotify keeps recommending songs you already know. MoodTune finds music that matches your mood right now — songs you've never heard but will love.")
 
 st.markdown("### How are you feeling right now?")
@@ -22,14 +21,13 @@ mood = st.text_area(
 )
 
 st.markdown("### Optional: Help me narrow it down")
-col1, col2 = st.columns(2)
 
+col1, col2 = st.columns(2)
 with col1:
     genre_pref = st.selectbox(
         "Any genre preference?",
         ["No preference", "Indie/Alternative", "Pop", "Hip-hop/R&B", "Electronic", "Jazz/Soul", "Classical/Ambient", "Rock", "World Music"]
     )
-
 with col2:
     familiarity = st.selectbox(
         "How adventurous?",
@@ -37,129 +35,6 @@ with col2:
     )
 
 col3, col4 = st.columns(2)
-
 with col3:
     language_pref = st.selectbox(
         "Preferred language?",
-        language_pref = st.selectbox(
-    "Preferred language?",
-    [
-        "No preference",
-        # Indian Languages
-        "Hindi",
-        "Tamil",
-        "Telugu",
-        "Kannada",
-        "Malayalam",
-        "Punjabi",
-        "Bengali",
-        "Marathi",
-        "Gujarati",
-        "Odia",
-        "Assamese",
-        "Bhojpuri",
-        "Rajasthani",
-        "Haryanvi",
-        "Urdu",
-        # International
-        "English",
-        "Spanish",
-        "Portuguese",
-        "French",
-        "Korean (K-pop)",
-        "Japanese (J-pop)",
-        "Mandarin Chinese",
-        "Cantonese",
-        "Arabic",
-        "Turkish",
-        "Indonesian/Malay",
-        "Swahili",
-        "Afrikaans",
-        "Italian",
-        "German",
-        "Russian",
-        "Greek",
-        "Persian/Farsi",
-        "Thai",
-        "Vietnamese",
-        "Filipino/Tagalog",
-        "Dutch",
-        "Polish",
-        "Swedish",
-        "Nigerian (Afrobeats)",
-        "Amharic (Ethiopian)",
-        # Special
-        "Instrumental (no lyrics)",
-        "Sanskrit/Classical",
-    ]
-)
-    
-
-with col4:
-    avoid = st.text_input(
-        "Any artists or genres to avoid?",
-        placeholder="e.g. No heavy metal, avoid Ed Sheeran..."
-    )
-
-if st.button("🎧 Discover My Music", use_container_width=True):
-    if not mood:
-        st.warning("Please describe how you're feeling first!")
-    else:
-        with st.spinner("Finding music made for this exact moment..."):
-            try:
-                client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-
-                genre_text = "" if genre_pref == "No preference" else f"Genre leaning: {genre_pref}."
-                avoid_text = "" if not avoid else f"Avoid: {avoid}."
-                adventure_text = f"Discovery level: {familiarity}."
-                language_text = "" if language_pref == "No preference" else f"Songs must be in {language_pref} language."
-
-                prompt = f"""You are a music discovery expert who understands the emotional and sonic qualities of music deeply.
-
-A user is feeling: "{mood}"
-{genre_text}
-{adventure_text}
-{language_text}
-{avoid_text}
-
-The user is frustrated that Spotify keeps recommending songs they already know or songs from their own playlists. They want genuinely new discoveries.
-
-Recommend exactly 5 songs that:
-1. Match their emotional state RIGHT NOW
-2. Are NOT mega-hits (no Taylor Swift chart toppers, no songs with 1B+ streams)
-3. Are genuinely diverse — different artists, ideally different genres/subgenres
-4. The user has likely NEVER heard before
-5. Feel like a surprise that makes them think "how did it know?"
-6. MUST be in the preferred language if specified: {language_pref}
-
-For each song provide:
-**[Number]. Song Title — Artist Name** *(Language/Origin)*
-🎭 *Why it fits your mood:* [2 sentences connecting their exact mood to this song]
-🎵 *Sonic quality:* [One specific detail about vocals, instrumentation, or production that matches]
-🔍 *Listen on Spotify:* https://open.spotify.com/search/[song+name+artist]
-
-After the 5 songs, add:
----
-💡 **Why these aren't your usual Spotify picks:** [2 sentences explaining how mood-based discovery differs from Spotify's history-based recommendations]
-
-Be specific, emotionally intelligent, and genuinely surprising. Avoid obvious choices."""
-
-                response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[{"role": "user", "content": prompt}],
-                    max_tokens=1500,
-                    temperature=0.7
-                )
-
-                st.markdown("---")
-                st.markdown("### 🎶 Your Discovery Playlist")
-                st.markdown(response.choices[0].message.content)
-                st.markdown("---")
-                st.success("Found something you'll love? Save it to Spotify before you forget!")
-
-            except Exception as e:
-                st.error("Something went wrong. Please try again.")
-                st.caption(str(e))
-
-st.markdown("---")
-st.caption("Built to solve Spotify's discovery problem | PM Project 2026")
