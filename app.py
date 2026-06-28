@@ -41,7 +41,58 @@ col3, col4 = st.columns(2)
 with col3:
     language_pref = st.selectbox(
         "Preferred language?",
-        ["No preference", "English", "Hindi", "Tamil", "Telugu", "Spanish", "Korean (K-pop)", "French", "Portuguese", "Japanese", "Arabic", "Instrumental (no lyrics)"]
+        language_pref = st.selectbox(
+    "Preferred language?",
+    [
+        "No preference",
+        # Indian Languages
+        "Hindi",
+        "Tamil",
+        "Telugu",
+        "Kannada",
+        "Malayalam",
+        "Punjabi",
+        "Bengali",
+        "Marathi",
+        "Gujarati",
+        "Odia",
+        "Assamese",
+        "Bhojpuri",
+        "Rajasthani",
+        "Haryanvi",
+        "Urdu",
+        # International
+        "English",
+        "Spanish",
+        "Portuguese",
+        "French",
+        "Korean (K-pop)",
+        "Japanese (J-pop)",
+        "Mandarin Chinese",
+        "Cantonese",
+        "Arabic",
+        "Turkish",
+        "Indonesian/Malay",
+        "Swahili",
+        "Afrikaans",
+        "Italian",
+        "German",
+        "Russian",
+        "Greek",
+        "Persian/Farsi",
+        "Thai",
+        "Vietnamese",
+        "Filipino/Tagalog",
+        "Dutch",
+        "Polish",
+        "Swedish",
+        "Nigerian (Afrobeats)",
+        "Amharic (Ethiopian)",
+        # Special
+        "Instrumental (no lyrics)",
+        "Sanskrit/Classical",
+    ]
+)
     )
 
 with col4:
