@@ -1,14 +1,12 @@
 import streamlit as st
 from groq import Groq
 
-# Page config
 st.set_page_config(
     page_title="MoodTune — Spotify Discovery Agent",
     page_icon="🎵",
     layout="centered"
 )
 
-# Header
 st.title("🎵 MoodTune")
 st.subheader("Describe how you're feeling. Discover music made for this exact moment.")
 st.markdown("---")
@@ -38,10 +36,19 @@ with col2:
         ["Surprise me completely", "Somewhat familiar territory", "Similar to what I know but new artists"]
     )
 
-avoid = st.text_input(
-    "Any artists or genres to avoid?",
-    placeholder="e.g. No heavy metal, avoid Ed Sheeran..."
-)
+col3, col4 = st.columns(2)
+
+with col3:
+    language_pref = st.selectbox(
+        "Preferred language?",
+        ["No preference", "English", "Hindi", "Tamil", "Telugu", "Spanish", "Korean (K-pop)", "French", "Portuguese", "Japanese", "Arabic", "Instrumental (no lyrics)"]
+    )
+
+with col4:
+    avoid = st.text_input(
+        "Any artists or genres to avoid?",
+        placeholder="e.g. No heavy metal, avoid Ed Sheeran..."
+    )
 
 if st.button("🎧 Discover My Music", use_container_width=True):
     if not mood:
@@ -54,12 +61,14 @@ if st.button("🎧 Discover My Music", use_container_width=True):
                 genre_text = "" if genre_pref == "No preference" else f"Genre leaning: {genre_pref}."
                 avoid_text = "" if not avoid else f"Avoid: {avoid}."
                 adventure_text = f"Discovery level: {familiarity}."
+                language_text = "" if language_pref == "No preference" else f"Songs must be in {language_pref} language."
 
                 prompt = f"""You are a music discovery expert who understands the emotional and sonic qualities of music deeply.
 
 A user is feeling: "{mood}"
 {genre_text}
 {adventure_text}
+{language_text}
 {avoid_text}
 
 The user is frustrated that Spotify keeps recommending songs they already know or songs from their own playlists. They want genuinely new discoveries.
@@ -70,9 +79,10 @@ Recommend exactly 5 songs that:
 3. Are genuinely diverse — different artists, ideally different genres/subgenres
 4. The user has likely NEVER heard before
 5. Feel like a surprise that makes them think "how did it know?"
+6. MUST be in the preferred language if specified: {language_pref}
 
 For each song provide:
-**[Number]. Song Title — Artist Name**
+**[Number]. Song Title — Artist Name** *(Language/Origin)*
 🎭 *Why it fits your mood:* [2 sentences connecting their exact mood to this song]
 🎵 *Sonic quality:* [One specific detail about vocals, instrumentation, or production that matches]
 🔍 *Listen on Spotify:* https://open.spotify.com/search/[song+name+artist]
