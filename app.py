@@ -72,24 +72,4 @@ if st.button("🎧 Discover My Music", use_container_width=True):
                 adventure_text = "Discovery level: " + familiarity + "."
                 language_text = "" if language_pref == "No preference" else "Songs must be in " + language_pref + " language."
 
-                prompt = "You are a music discovery expert who understands the emotional and sonic qualities of music deeply.\n\nA user is feeling: \"" + mood + "\"\n" + genre_text + "\n" + adventure_text + "\n" + language_text + "\n" + avoid_text + "\n\nThe user is frustrated that Spotify keeps recommending songs they already know. They want genuinely new discoveries.\n\nRecommend exactly 5 songs that:\n1. Match their emotional state RIGHT NOW\n2. Are NOT mega-hits (no Taylor Swift chart toppers, no songs with 1B+ streams)\n3. Are genuinely diverse — different artists, ideally different genres\n4. The user has likely NEVER heard before\n5. MUST be in the preferred language if specified: " + language_pref + "\n\nFor each song provide:\n**[Number]. Song Title — Artist Name** *(Language/Origin)*\n🎭 *Why it fits your mood:* [2 sentences]\n🎵 *Sonic quality:* [One specific detail]\n🔍 *Listen on Spotify:* https://open.spotify.com/search/[song+name+artist]\n\nAfter the 5 songs add:\n---\n💡 **Why these aren't your usual Spotify picks:** [2 sentences on mood-based vs history-based discovery]\n\nBe specific, emotionally intelligent, and genuinely surprising."
-
-                response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[{"role": "user", "content": prompt}],
-                    max_tokens=1500,
-                    temperature=0.7
-                )
-
-                st.markdown("---")
-                st.markdown("### 🎶 Your Discovery Playlist")
-                st.markdown(response.choices[0].message.content)
-                st.markdown("---")
-                st.success("Found something you'll love? Save it to Spotify before you forget!")
-
-            except Exception as e:
-                st.error("Something went wrong. Please try again.")
-                st.caption(str(e))
-
-st.markdown("---")
-st.caption("Built to solve Spotify's discovery problem | PM Project 2026")
+                prompt = "You are a music discovery expert who understands the emotional and sonic qualities of music deeply.\n\nA user is feeling: \"" + mood + "\"\n" + genre_text + "\n" + adventure_text + "\n" + language_text + "\n" + avoid_text + "\n\nThe user is frustrated that Spotify keeps recommending songs they already know. They want genuinely new discoveries.\n\nRecommend exactly 5 songs that:\n1. Match their emotional state RIGHT NOW\n2. Are NOT mega-hits (no Taylor Swift chart toppers, no songs with 1B+ streams)\n3. Are genuinely diverse — different artists, ideally different genres\n4. The user has likely NEVER heard before\n5. MUST be in the preferred language if specified: " + language_pref + "\n\nFor each song provide:\n**[Number]. Song Title — Artist Name** *(Language/Origin)*\n🎭
