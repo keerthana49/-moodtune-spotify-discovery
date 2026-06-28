@@ -93,7 +93,7 @@ with col3:
         "Sanskrit/Classical",
     ]
 )
-    )
+    
 
 with col4:
     avoid = st.text_input(
