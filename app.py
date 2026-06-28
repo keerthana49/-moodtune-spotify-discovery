@@ -70,3 +70,4 @@ if st.button("Discover My Music", use_container_width=True):
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[{"role": "user", "content": prompt}],
+                )
